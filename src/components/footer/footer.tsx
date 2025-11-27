@@ -9,7 +9,7 @@ const Footer = () => {
   return (
     <Box padding={'20px'} sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', backgroundColor: '#141414', color: 'white' }}
     >
-      <Typography>{format(new Date(), 'yyyy')} Ruslon. All Right Reserved.</Typography>
+      <Typography>© {format(new Date(), 'yyyy')} Ruslon. All Right Reserved.</Typography>
       <Box sx={{ display: 'flex', gap: '15px' }}>
         <TelegramIcon sx={{ cursor: 'pointer' }} />
         <InstagramIcon sx={{ cursor: 'pointer' }} />
