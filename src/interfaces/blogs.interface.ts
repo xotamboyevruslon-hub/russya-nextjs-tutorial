@@ -3,7 +3,7 @@ export interface BlogsType {
     id: string;
     slug: string;
     title: string;
-    createdAt: Date;    
+    createdAt: Date;
     image: {
         url: string;
     };
@@ -16,5 +16,8 @@ export interface BlogsType {
     category: {
         label: string;
         slug: string;
+    };
+    description: {
+        text: string;
     };
 } 
