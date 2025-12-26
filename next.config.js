@@ -1,13 +1,18 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {
+const path = require("path");
+
+module.exports = {
   reactStrictMode: true,
-  swcMinify: true,
+
   images: {
     domains: [
       "media.graphassets.com",
-      "us-west-2.graphassets.com"
+      "us-west-2.graphassets.com",
     ],
   },
-};
 
-module.exports = nextConfig;
+  webpack: (config) => {
+    config.resolve.alias["@"] = path.resolve(__dirname, "src");
+    return config;
+  },
+};

@@ -1,3 +1,5 @@
+'use client'
+
 import { JSX } from 'react'
 import { LayoutProps } from './layout.props'
 import { Navbar, Footer } from 'src/components'

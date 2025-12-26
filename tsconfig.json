@@ -16,8 +16,9 @@
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "jsx": "react-jsx",
-    "baseUrl": "."
+    "jsx": "preserve",
+    "baseUrl": ".",
+    "forceConsistentCasingInFileNames": true
   },
   "include": [
     "next-env.d.ts",
