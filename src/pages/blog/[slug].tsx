@@ -9,6 +9,7 @@ import { format } from 'date-fns'
 import { calculateEstimatedTimeToRead } from "src/helpers/time.format";
 import { CategoryType } from "src/interfaces/categories.interface";
 
+
 const DetailedBlogsPage = ({ blog, latestBlogs, categories }: DetailedBlogsPageProps) => {
     return (
         <Layout>

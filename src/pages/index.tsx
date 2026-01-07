@@ -38,7 +38,7 @@ export const getServerSideProps: GetServerSideProps<HomePageProps> = async () =>
 };
 
 
-interface HomePageProps {
+export interface HomePageProps {
   blogs: BlogsType[];
   latestBlogs: BlogsType[];
   categories: CategoryType[];
