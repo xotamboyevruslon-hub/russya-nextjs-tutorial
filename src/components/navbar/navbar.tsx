@@ -5,6 +5,7 @@ import { navItems } from "src/config/constants";
 import CloseIcon from '@mui/icons-material/Close';
 import AdjustIcon from '@mui/icons-material/Adjust';
 import { useRouter } from "next/router";
+import Image from "next/image";
 
 interface Props {
   window?: () => Window;
@@ -21,33 +22,33 @@ const Navbar = ({ window }: Props) => {
   const container = window !== undefined ? () => window().document.body : undefined;
 
   const drawer = (
-    <Box onClick={handleDrawerToggle} sx={{ textAlign: 'center' }}>
+    <Box sx={{ textAlign: 'center' }}>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingX: '20px' }}>
         <Box sx={{ my: 2, display: 'flex', alignItems: 'center', gap: '5px' }}>
-          <AdjustIcon />
-          <Typography variant="h6">
+          <Image src={'/favicon.svg'} alt={'logo'} width={50} height={50} />
+          <Typography paddingTop={'7px'} variant="h4" fontFamily={'emoji'} component="div" >
             Ruslon
           </Typography>
         </Box>
-        <CloseIcon />
+        <CloseIcon onClick={handleDrawerToggle} sx={{ cursor: 'pointer' }} />
       </Box>
       <Divider />
       <List>
         {navItems.map((item) => (
           <ListItem key={item.route} disablePadding>
-            <ListItemButton sx={{ textAlign: 'center' }}>
+            <ListItemButton onClick={() => router.push(item.route)} sx={{ textAlign: 'center' }}>
               <ListItemText primary={item.label} />
             </ListItemButton>
           </ListItem>
         ))}
       </List>
-    </Box>
+    </Box >
   );
 
 
   return (
-    <Box height={'10vh'} sx={{ display: 'flex' }}>
-      <AppBar sx={{ height: '10vh', backgroundColor: '#141414' }} component="nav">
+    <Box height={'9vh'} sx={{ display: 'flex' }}>
+      <AppBar sx={{ backgroundColor: '#141414', height: '9vh' }} component="nav">
         <Toolbar>
           <IconButton
             color="inherit"
@@ -58,9 +59,9 @@ const Navbar = ({ window }: Props) => {
           >
             <MenuIcon />
           </IconButton>
-          <Box sx={{ my: 2, alignItems: 'center', gap: '5px', flexGrow: 1, display: { xs: 'none', sm: 'flex' } }}>
-            <AdjustIcon />
-            <Typography variant="h6" component="div" >
+          <Box sx={{ my: 2, alignItems: 'center', gap: '5px', flexGrow: 1, display: 'flex', cursor: 'pointer' }} onClick={() => router.push('/')}>
+            <Image src={'/favicon.svg'} alt={'logo'} width={50} height={50} />
+            <Typography paddingTop={'7px'} variant="h4" fontFamily={'emoji'} component="div" >
               Ruslon
             </Typography>
           </Box>
