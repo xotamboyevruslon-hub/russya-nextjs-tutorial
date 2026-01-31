@@ -55,27 +55,34 @@ const DetailedBlogsPage = ({ blog, latestBlogs, categories }: DetailedBlogsPageP
 export default DetailedBlogsPage;
 
 export const getServerSideProps: GetServerSideProps<DetailedBlogsPageProps> = async ({ query }) => {
-    const slug = query.slug;
-    const latestBlogs = await BlogsService.getLatestBlog();
-    const categories = await BlogsService.getCategories();
+    try {
+        const slug = query.slug;
+        
+        if (typeof slug !== "string") {
+            return { notFound: true };
+        }
 
-    if (typeof slug !== "string") {
+        const [latestBlogs, categories, blog] = await Promise.all([
+            BlogsService.getLatestBlog(),
+            BlogsService.getCategories(),
+            BlogsService.getDetailedBlogs(slug),
+        ]);
+
+        if (!blog) {
+            return { notFound: true };
+        }
+
+        return {
+            props: {
+                blog,
+                latestBlogs,
+                categories,
+            },
+        };
+    } catch (error) {
+        console.error('Error in getServerSideProps:', error);
         return { notFound: true };
     }
-
-    const blog = await BlogsService.getDetailedBlogs(slug);
-
-    if (!blog) {
-        return { notFound: true };
-    }
-
-    return {
-        props: {
-            blog,
-            latestBlogs,
-            categories,
-        },
-    };
 };
 
 interface DetailedBlogsPageProps {

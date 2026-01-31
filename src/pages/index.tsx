@@ -25,18 +25,28 @@ export default IndexPage;
 
 
 export const getServerSideProps: GetServerSideProps<HomePageProps> = async () => {
-  const blogs = await BlogsService.getAllBlogs();
-  const latestBlogs = await BlogsService.getLatestBlog();
-  const categories = await BlogsService.getCategories();
+  try {
+    const blogs = await BlogsService.getAllBlogs();
+    const latestBlogs = await BlogsService.getLatestBlog();
+    const categories = await BlogsService.getCategories();
 
-
-  return {
-    props: {
-      blogs,
-      latestBlogs,
-      categories,
-    },
-  };
+    return {
+      props: {
+        blogs,
+        latestBlogs,
+        categories,
+      },
+    };
+  } catch (error) {
+    console.error('Error in getServerSideProps:', error);
+    return {
+      props: {
+        blogs: [],
+        latestBlogs: [],
+        categories: [],
+      },
+    };
+  }
 };
 
 

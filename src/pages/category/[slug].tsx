@@ -26,27 +26,34 @@ const CategoryDetailedPage = ({ blogs, latestBlogs, categories }: DetailedCatego
 export default CategoryDetailedPage
 
 export const getServerSideProps: GetServerSideProps<DetailedCategoriesPageProps> = async ({ query }) => {
-    const slug = query.slug;
-    const latestBlogs = await BlogsService.getLatestBlog();
-    const categories = await BlogsService.getCategories();
+    try {
+        const slug = query.slug;
+        
+        if (typeof slug !== "string") {
+            return { notFound: true };
+        }
 
-    if (typeof slug !== "string") {
+        const [latestBlogs, categories, blogs] = await Promise.all([
+            BlogsService.getLatestBlog(),
+            BlogsService.getCategories(),
+            BlogsService.getDetailedCategoriesBlog(slug),
+        ]);
+
+        if (!blogs || blogs.length === 0) {
+            return { notFound: true };
+        }
+
+        return {
+            props: {
+                blogs,
+                latestBlogs,
+                categories,
+            },
+        };
+    } catch (error) {
+        console.error('Error in getServerSideProps:', error);
         return { notFound: true };
     }
-
-    const blogs = await BlogsService.getDetailedCategoriesBlog(slug);
-
-    if (!blogs) {
-        return { notFound: true };
-    }
-
-    return {
-        props: {
-            blogs,
-            latestBlogs,
-            categories,
-        },
-    };
 };
 
 interface DetailedCategoriesPageProps {

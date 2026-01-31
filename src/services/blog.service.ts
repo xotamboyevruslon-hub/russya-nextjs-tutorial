@@ -4,6 +4,10 @@ import { CategoryType } from 'src/interfaces/categories.interface';
 
 const graphqlAPI = process.env.NEXT_PUBLIC_HYGRAPH_ENDPOINT as string;
 
+if (!graphqlAPI) {
+  console.error('NEXT_PUBLIC_HYGRAPH_ENDPOINT environment variable is not set');
+}
+
 export const BlogsService = {
   async getAllBlogs() {
     const query = gql`
@@ -35,8 +39,16 @@ export const BlogsService = {
         }
         `;
 
-    const result = await request<{ blogs: BlogsType[] }>(graphqlAPI, query);
-    return result.blogs;
+    try {
+      if (!graphqlAPI) {
+        throw new Error('GraphQL API endpoint is not configured');
+      }
+      const result = await request<{ blogs: BlogsType[] }>(graphqlAPI, query);
+      return result.blogs;
+    } catch (error) {
+      console.error('Error fetching all blogs:', error);
+      return [];
+    }
   },
 
 
@@ -64,8 +76,16 @@ export const BlogsService = {
         }
         `;
 
-    const result = await request<{ blogs: BlogsType[] }>(graphqlAPI, query);
-    return result.blogs;
+    try {
+      if (!graphqlAPI) {
+        throw new Error('GraphQL API endpoint is not configured');
+      }
+      const result = await request<{ blogs: BlogsType[] }>(graphqlAPI, query);
+      return result.blogs;
+    } catch (error) {
+      console.error('Error fetching latest blogs:', error);
+      return [];
+    }
   },
 
 
@@ -78,8 +98,16 @@ export const BlogsService = {
           }   
         }
        `;
-    const result = await request<{ categories: CategoryType[] }>(graphqlAPI, query);
-    return result.categories;
+    try {
+      if (!graphqlAPI) {
+        throw new Error('GraphQL API endpoint is not configured');
+      }
+      const result = await request<{ categories: CategoryType[] }>(graphqlAPI, query);
+      return result.categories;
+    } catch (error) {
+      console.error('Error fetching categories:', error);
+      return [];
+    }
   },
 
 
@@ -113,8 +141,16 @@ export const BlogsService = {
       }
       `;
 
-    const result = await request<{ blogs: BlogsType[] }>(graphqlAPI, query, { slug });
-    return result.blogs?.[0] ?? null;
+    try {
+      if (!graphqlAPI) {
+        throw new Error('GraphQL API endpoint is not configured');
+      }
+      const result = await request<{ blogs: BlogsType[] }>(graphqlAPI, query, { slug });
+      return result.blogs?.[0] ?? null;
+    } catch (error) {
+      console.error('Error fetching detailed blog:', error);
+      return null;
+    }
   },
 
   getDetailedCategoriesBlog: async (slug: string) => {
@@ -146,13 +182,21 @@ export const BlogsService = {
     }
   `;
 
-    const result = await request<{ blogs: BlogsType[] }>(
-      graphqlAPI,
-      query,
-      { slug }
-    );
+    try {
+      if (!graphqlAPI) {
+        throw new Error('GraphQL API endpoint is not configured');
+      }
+      const result = await request<{ blogs: BlogsType[] }>(
+        graphqlAPI,
+        query,
+        { slug }
+      );
 
-    return result.blogs;
+      return result.blogs;
+    } catch (error) {
+      console.error('Error fetching category blogs:', error);
+      return [];
+    }
   },
 };
   

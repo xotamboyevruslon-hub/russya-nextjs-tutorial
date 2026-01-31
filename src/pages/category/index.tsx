@@ -32,13 +32,22 @@ export default CategoryPage;
 
 
 export const getServerSideProps: GetServerSideProps<CategoryPageProps> = async () => {
-    const categories = await BlogsService.getCategories();
+    try {
+        const categories = await BlogsService.getCategories();
 
-    return {
-        props: {
-            categories,
-        },
-    };
+        return {
+            props: {
+                categories,
+            },
+        };
+    } catch (error) {
+        console.error('Error in getServerSideProps:', error);
+        return {
+            props: {
+                categories: [],
+            },
+        };
+    }
 };
 
 interface CategoryPageProps {

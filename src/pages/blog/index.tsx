@@ -21,11 +21,18 @@ const BlogPage = ({ blogs }: BlogPageProps) => {
 export default BlogPage;
 
 export const getServerSideProps: GetServerSideProps<BlogPageProps> = async () => {
-    const blogs = await BlogsService.getAllBlogs();
+    try {
+        const blogs = await BlogsService.getAllBlogs();
 
-    return {
-        props: { blogs },
-    };
+        return {
+            props: { blogs },
+        };
+    } catch (error) {
+        console.error('Error in getServerSideProps:', error);
+        return {
+            props: { blogs: [] },
+        };
+    }
 };
 
 
